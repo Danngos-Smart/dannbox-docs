@@ -1,0 +1,143 @@
+# Configuration
+
+Learn how to configure Dannbox for your specific needs.
+
+## Configuration File
+
+Create a `dannbox.config.js` file in your project root:
+
+```javascript
+// dannbox.config.js
+export default {
+  version: '1.0.0',
+  mode: 'production',
+  
+  // Server configuration
+  server: {
+    port: 3000,
+    host: 'localhost'
+  },
+  
+  // Build configuration
+  build: {
+    minify: true,
+    sourcemap: true
+  },
+  
+  // Plugin configuration
+  plugins: []
+}
+```
+
+## TypeScript Configuration
+
+For TypeScript projects:
+
+```typescript
+// dannbox.config.ts
+import { defineConfig } from 'dannbox'
+
+export default defineConfig({
+  version: '1.0.0',
+  mode: 'production',
+  
+  server: {
+    port: 3000,
+    host: 'localhost'
+  }
+})
+```
+
+## Environment Variables
+
+Use environment variables for sensitive configuration:
+
+```bash
+# .env
+DANNBOX_MODE=production
+DANNBOX_PORT=3000
+DANNBOX_API_KEY=your-api-key
+```
+
+Access them in your config:
+
+```javascript
+export default {
+  mode: process.env.DANNBOX_MODE,
+  port: process.env.DANNBOX_PORT,
+  apiKey: process.env.DANNBOX_API_KEY
+}
+```
+
+## Advanced Options
+
+### Build Options
+
+```javascript
+{
+  build: {
+    minify: true,
+    sourcemap: true,
+    target: 'es2020',
+    outDir: 'dist'
+  }
+}
+```
+
+### Server Options
+
+```javascript
+{
+  server: {
+    port: 3000,
+    host: '0.0.0.0',
+    https: {
+      cert: './cert.pem',
+      key: './key.pem'
+    }
+  }
+}
+```
+
+### Plugin Options
+
+```javascript
+{
+  plugins: [
+    {
+      name: 'my-plugin',
+      options: {
+        enabled: true
+      }
+    }
+  ]
+}
+```
+
+## Validation
+
+Dannbox validates your configuration automatically. Invalid configurations will throw errors with helpful messages.
+
+```typescript
+import { validateConfig } from 'dannbox'
+
+const config = {
+  version: '1.0.0',
+  mode: 'invalid' // This will fail validation
+}
+
+if (!validateConfig(config)) {
+  console.error('Invalid configuration')
+}
+```
+
+## Configuration Options Reference
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `version` | `string` | - | Version identifier |
+| `mode` | `'development' \| 'production'` | `'development'` | Application mode |
+| `server.port` | `number` | `3000` | Server port |
+| `server.host` | `string` | `'localhost'` | Server host |
+| `build.minify` | `boolean` | `true` | Enable minification |
+| `build.sourcemap` | `boolean` | `true` | Generate sourcemaps |

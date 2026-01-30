@@ -1,0 +1,192 @@
+# API Reference
+
+Complete API reference for Dannbox.
+
+## Core API
+
+### Configuration
+
+Learn how to configure Dannbox for your needs.
+
+```typescript
+interface DannboxConfig {
+  version: string;
+  mode: 'development' | 'production';
+  plugins?: Plugin[];
+}
+```
+
+### Methods
+
+#### `initialize(config: DannboxConfig)`
+
+Initializes Dannbox with the provided configuration.
+
+**Parameters:**
+- `config` (DannboxConfig): Configuration object
+
+**Returns:** `Promise<void>`
+
+**Example:**
+
+```typescript
+import { initialize } from 'dannbox'
+
+await initialize({
+  version: '1.0.0',
+  mode: 'production'
+})
+```
+
+#### `configure(options: Options)`
+
+Configures runtime options.
+
+**Parameters:**
+- `options` (Options): Runtime options
+
+**Returns:** `void`
+
+**Example:**
+
+```typescript
+import { configure } from 'dannbox'
+
+configure({
+  logLevel: 'debug'
+})
+```
+
+## Utility Functions
+
+### `parseData(input: string)`
+
+Parses input data into structured format.
+
+**Parameters:**
+- `input` (string): Input string to parse
+
+**Returns:** `ParsedData`
+
+**Example:**
+
+```typescript
+import { parseData } from 'dannbox'
+
+const result = parseData('{"key": "value"}')
+```
+
+### `validateConfig(config: DannboxConfig)`
+
+Validates configuration object.
+
+**Parameters:**
+- `config` (DannboxConfig): Configuration to validate
+
+**Returns:** `boolean`
+
+**Example:**
+
+```typescript
+import { validateConfig } from 'dannbox'
+
+const isValid = validateConfig({
+  version: '1.0.0',
+  mode: 'production'
+})
+```
+
+## Events
+
+Dannbox emits several events during its lifecycle:
+
+- `init` - Fired when initialization starts
+- `ready` - Fired when ready to use
+- `error` - Fired on errors
+- `shutdown` - Fired on shutdown
+
+**Example:**
+
+```typescript
+import { Dannbox } from 'dannbox'
+
+const app = new Dannbox()
+
+app.on('ready', () => {
+  console.log('Dannbox is ready!')
+})
+
+app.on('error', (error) => {
+  console.error('Error:', error)
+})
+```
+
+## Classes
+
+### `Dannbox`
+
+Main Dannbox class.
+
+**Constructor:**
+
+```typescript
+new Dannbox(config?: DannboxConfig)
+```
+
+**Methods:**
+
+- `start(): Promise<void>` - Start the application
+- `stop(): Promise<void>` - Stop the application
+- `on(event: string, handler: Function): void` - Listen to events
+- `emit(event: string, data?: any): void` - Emit events
+
+**Example:**
+
+```typescript
+import { Dannbox } from 'dannbox'
+
+const app = new Dannbox({
+  version: '1.0.0',
+  mode: 'production'
+})
+
+await app.start()
+```
+
+## Types
+
+### `DannboxConfig`
+
+```typescript
+interface DannboxConfig {
+  version: string
+  mode: 'development' | 'production'
+  server?: ServerConfig
+  build?: BuildConfig
+  plugins?: Plugin[]
+}
+```
+
+### `ServerConfig`
+
+```typescript
+interface ServerConfig {
+  port: number
+  host: string
+  https?: {
+    cert: string
+    key: string
+  }
+}
+```
+
+### `BuildConfig`
+
+```typescript
+interface BuildConfig {
+  minify: boolean
+  sourcemap: boolean
+  target: string
+  outDir: string
+}
+```

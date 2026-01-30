@@ -1,0 +1,85 @@
+# Getting Started
+
+Get up and running with Dannbox in minutes.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js 18 or later
+- Bun (recommended) or npm/yarn
+
+## Installation
+
+Install Dannbox using your preferred package manager:
+
+```bash
+bun add dannbox
+```
+
+## Configuration
+
+Create a configuration file in your project root:
+
+```javascript
+// dannbox.config.js
+export default {
+  version: '1.0.0',
+  mode: 'production'
+}
+```
+
+## Your First Project
+
+Let's create your first Dannbox project:
+
+### Step 1: Initialize
+
+```bash
+bun create dannbox my-app
+cd my-app
+```
+
+### Step 2: Configure
+
+Edit your `dannbox.config.js`:
+
+```javascript
+export default {
+  version: '1.0.0',
+  mode: 'development',
+  server: {
+    port: 3000
+  }
+}
+```
+
+### Step 3: Run
+
+Start the development server:
+
+```bash
+bun run dev
+```
+
+That's it! You're now ready to start building with Dannbox.
+
+## Project Structure
+
+Your Dannbox project will have the following structure:
+
+```
+my-app/
+├── dannbox.config.js
+├── package.json
+├── src/
+│   ├── index.ts
+│   └── components/
+└── public/
+```
+
+## Next Steps
+
+- Learn about [Configuration](/docs/configuration)
+- Explore the [API Reference](/docs/api)
+- Check out [Examples](/docs/examples)

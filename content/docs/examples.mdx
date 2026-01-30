@@ -1,0 +1,198 @@
+# Examples
+
+Practical examples to help you get started with Dannbox.
+
+## Basic Usage
+
+Here's a simple example of using Dannbox:
+
+```typescript
+import { Dannbox } from 'dannbox'
+
+const app = new Dannbox({
+  mode: 'development'
+})
+
+await app.start()
+```
+
+## Advanced Configuration
+
+For more complex scenarios:
+
+```typescript
+import { Dannbox, Plugin } from 'dannbox'
+
+const customPlugin: Plugin = {
+  name: 'custom',
+  setup: (instance) => {
+    // Plugin logic here
+    console.log('Plugin initialized')
+  }
+}
+
+const app = new Dannbox({
+  mode: 'production',
+  plugins: [customPlugin]
+})
+
+await app.start()
+```
+
+## With TypeScript
+
+Full TypeScript support:
+
+```typescript
+import { Dannbox, DannboxConfig, Plugin } from 'dannbox'
+
+const config: DannboxConfig = {
+  version: '1.0.0',
+  mode: 'production',
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
+  }
+}
+
+const app = new Dannbox(config)
+await app.start()
+```
+
+## Error Handling
+
+Best practices for error handling:
+
+```typescript
+import { Dannbox } from 'dannbox'
+
+try {
+  const app = new Dannbox({
+    mode: 'production'
+  })
+  
+  await app.start()
+  
+  app.on('error', (error) => {
+    console.error('Application error:', error)
+  })
+  
+} catch (error) {
+  console.error('Failed to start:', error)
+  process.exit(1)
+}
+```
+
+## Integration Examples
+
+### With Express
+
+```typescript
+import express from 'express'
+import { Dannbox } from 'dannbox'
+
+const app = express()
+const dannbox = new Dannbox()
+
+await dannbox.start()
+
+app.use('/api', dannbox.middleware())
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000')
+})
+```
+
+### With React
+
+```typescript
+import { useDannbox } from 'dannbox/react'
+
+function App() {
+  const { data, loading, error } = useDannbox()
+  
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
+  
+  return <div>{JSON.stringify(data)}</div>
+}
+
+export default App
+```
+
+### With Next.js API Routes
+
+```typescript
+// app/api/dannbox/route.ts
+import { Dannbox } from 'dannbox'
+import { NextResponse } from 'next/server'
+
+const dannbox = new Dannbox({
+  mode: 'production'
+})
+
+export async function GET() {
+  try {
+    const result = await dannbox.process()
+    return NextResponse.json(result)
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    )
+  }
+}
+```
+
+## Custom Plugin Example
+
+```typescript
+import { Plugin } from 'dannbox'
+
+const loggingPlugin: Plugin = {
+  name: 'logging',
+  setup: (instance) => {
+    instance.on('init', () => {
+      console.log('[Logging] Dannbox initialized')
+    })
+    
+    instance.on('ready', () => {
+      console.log('[Logging] Dannbox ready')
+    })
+    
+    instance.on('error', (error) => {
+      console.error('[Logging] Error:', error)
+    })
+  }
+}
+
+const app = new Dannbox({
+  plugins: [loggingPlugin]
+})
+
+await app.start()
+```
+
+## Environment-Based Configuration
+
+```typescript
+import { Dannbox } from 'dannbox'
+
+const config = {
+  version: '1.0.0',
+  mode: process.env.NODE_ENV === 'production' 
+    ? 'production' 
+    : 'development',
+  server: {
+    port: parseInt(process.env.PORT || '3000'),
+    host: process.env.HOST || 'localhost'
+  }
+}
+
+const app = new Dannbox(config)
+await app.start()
+```
+
+## More Examples
+
+Check out our [GitHub repository](https://github.com/dannbox) for more examples and use cases.
